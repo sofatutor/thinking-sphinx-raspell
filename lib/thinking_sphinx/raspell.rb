@@ -15,7 +15,7 @@ module ThinkingSphinx
     # @return [String] the suggested query
     # 
     def suggestion
-      @suggestion ||= all_args.gsub(/[\w\']+/) { |word| corrected_word(word) }
+      @suggestion ||= search_string.gsub(/[\w\']+/) { |word| corrected_word(word) }
     end
     
     # An indication of whether there are any spelling corrections for the
@@ -25,7 +25,7 @@ module ThinkingSphinx
     #   original
     # 
     def suggestion?
-      suggestion != all_args
+      suggestion != search_string
     end
     
     # Modifies the current search object, switching queries and removing any
@@ -44,7 +44,8 @@ module ThinkingSphinx
     # 
     # @return [String] all query arguments joined together by spaces.
     # 
-    def all_args
+    def search_string
+      return query.to_s if respond_to? :query
       args.join(' ')
     end
     
